@@ -4,7 +4,7 @@ namespace RoboRegisAPI.Service;
 public class ConsumindoAPI
 {
     public DesserializarJson _desser;
-    public async Task ConsultaNmRegistro2(string Nregistro){
+    public async Task ConsultaNmRegistro(string Nregistro){
 
         using (HttpClient client = new HttpClient())
         {          
