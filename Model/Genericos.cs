@@ -4,7 +4,8 @@ using System.Text.Json.Serialization;
 namespace RoboRegisAPI.Model;
 public class Genericos
 {
-  public string nomeProduto { get; set; }
+    public Genericos(){}
+    public string nomeProduto { get; set; }
     public string processo { get; set; }
     public string registro { get; set; }
     public string razaoSocial { get; set; }
@@ -14,4 +15,5 @@ public class Genericos
     public int codigoTipo { get; set; }
     public string descSituacao { get; set; }
     public string descTipo { get; set; }
+
 }

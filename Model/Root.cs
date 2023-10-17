@@ -1,6 +1,7 @@
 namespace RoboRegisAPI.Model;
 public class Root
 {
+    public Root(){}
     public List<Genericos> content { get; set; }
     public int totalElements { get; set; }
     public int totalPages { get; set; }
