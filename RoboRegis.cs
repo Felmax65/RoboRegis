@@ -5,6 +5,7 @@ class RoboRegis
 {
     static async Task Main (string[] args)
     {
-        await ConsumindoAPI.ConsultaNmRegistro("80207450008");
+        ConsumindoAPI c = new ConsumindoAPI();
+        await c.ConsultaNmRegistro2("80207450008");
     }   
 }
