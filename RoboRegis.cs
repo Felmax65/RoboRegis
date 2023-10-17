@@ -1,4 +1,4 @@
-using RoboRegisAPI.Service;
+using RoboRegisAPI.Services;
 
 namespace RoboRegisAPI;
 class RoboRegis
@@ -6,6 +6,6 @@ class RoboRegis
     static async Task Main (string[] args)
     {
         ConsumindoAPI c = new ConsumindoAPI();
-        await c.ConsultaNmRegistro2("80207450008");
+        await c.ConsultaNmRegistro("80207450008");
     }   
 }

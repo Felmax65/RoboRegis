@@ -1,4 +1,4 @@
-namespace RoboRegisAPI.Service;
+namespace RoboRegisAPI.Services;
 
 public class ConvertToPlanilha
 {
