@@ -1,0 +1,67 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\felipe.alexandrino\\Documents\\projetos\\RoboRegis\\RoboRegisApi.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\felipe.alexandrino\\Documents\\projetos\\RoboRegis\\RoboRegisApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\felipe.alexandrino\\Documents\\projetos\\RoboRegis\\RoboRegisApi.csproj",
+        "projectName": "RoboRegisApi",
+        "projectPath": "C:\\Users\\felipe.alexandrino\\Documents\\projetos\\RoboRegis\\RoboRegisApi.csproj",
+        "packagesPath": "C:\\Users\\felipe.alexandrino\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\felipe.alexandrino\\Documents\\projetos\\RoboRegis\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\felipe.alexandrino\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[7.0.0-rc1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.415\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
