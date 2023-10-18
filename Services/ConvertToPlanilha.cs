@@ -24,7 +24,7 @@ public class ConvertToPlanilha
                 // Salvar a planilha no arquivo
                 SalvarPlanilha(package);
             }
-
+            
             Console.WriteLine("Planilha criada com sucesso.");
         }
         catch(Exception e)
@@ -38,7 +38,7 @@ public class ConvertToPlanilha
         try
         {
             byte[] bin = package.GetAsByteArray();
-            File.WriteAllBytes("Registro.xlsx", bin);
+            File.WriteAllBytes($"Registro-{DateTime.Now.ToString("F")}.xlsx", bin);
 
         }
         catch(Exception e)
@@ -53,15 +53,15 @@ public class ConvertToPlanilha
         {
             for (int i = 0; i < item.Count; i++)
             {
-                var itens = item[i];
+                var itens = item[i]; 
                 worksheet.Cells[i + 2, 1].Value = itens.nomeProduto;
-                worksheet.Cells[i + 2, 2].Value = itens.processo;
-                worksheet.Cells[i + 2, 3].Value = itens.registro;
+                worksheet.Cells[i + 2, 2].Value = Convert.ToInt64(itens.processo);
+                worksheet.Cells[i + 2, 3].Value = Convert.ToInt64(itens.registro);
                 worksheet.Cells[i + 2, 4].Value = itens.razaoSocial;
                 worksheet.Cells[i + 2, 5].Value = itens.cnpj;
-                worksheet.Cells[i + 2, 6].Value = itens.situacao;
-                worksheet.Cells[i + 2, 7].Value = itens.dataVencimento;
-                worksheet.Cells[i + 2, 8].Value = itens.codigoTipo;
+                worksheet.Cells[i + 2, 6].Value = Convert.ToInt32(itens.situacao);
+                worksheet.Cells[i + 2, 7].Value = Convert.ToDateTime(itens.dataVencimento).ToString("d");
+                worksheet.Cells[i + 2, 8].Value = Convert.ToInt32(itens.codigoTipo);
                 worksheet.Cells[i + 2, 9].Value = itens.descSituacao;
                 worksheet.Cells[i + 2, 10].Value = itens.descTipo;
             }
