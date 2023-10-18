@@ -14,19 +14,27 @@ public class DesserializarJson
     } 
 
     public List<Produtos> ConverterParaJson(List<string> registros)
-    {
-        //Declaracao Tipo Root
-        _produtos = new ProdutosContent();
-
-        //Declaracao List Items por Injecao
-        _items = new List<Produtos>();
-
-        //Conversao de Json para List do tipo Generico
-        foreach (var item in registros) 
+    {   
+        try
         {
-            _produtos = JsonSerializer.Deserialize<ProdutosContent>(item)!;
-            _items.AddRange(_produtos.content);
-        }       
+            //Declaracao Tipo Root
+            _produtos = new ProdutosContent();
+
+            //Declaracao List Items por Injecao
+            _items = new List<Produtos>();
+
+            //Conversao de Json para List do tipo Generico
+            foreach (var item in registros) 
+            {
+                _produtos = JsonSerializer.Deserialize<ProdutosContent>(item)!;
+                _items.AddRange(_produtos.content);
+            }       
+
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
         return _items;
     }
 }
