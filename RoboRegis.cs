@@ -3,8 +3,8 @@ namespace RoboRegisAPI;
 class RoboRegis
 {
     static async Task Main (string[] args)
-    {      
+    {           
         ServiceRobo service = new ServiceRobo();
-        await service.ConsultaNmRegistro();
+        await service.ConsultaNmRegistro();        
     }
 }

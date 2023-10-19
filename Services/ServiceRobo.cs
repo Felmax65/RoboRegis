@@ -8,6 +8,7 @@ public class ServiceRobo
     private ConvertToPlanilha _converter;
     private ServicePlanilha _servicePlanilha;
     private AnvisaAPI _anvisaApi;
+    private ServiceCSV _serviceCsv;
     public ServiceRobo()
     {
         _desserializar = new DesserializarJson();
@@ -15,6 +16,7 @@ public class ServiceRobo
         _servicePlanilha = new ServicePlanilha();
         _anvisaApi = new AnvisaAPI();
         _httpclient  = new HttpClient();
+        _serviceCsv = new ServiceCSV();
     }
    
     private HttpClient GetHttpClient()
@@ -41,7 +43,10 @@ public class ServiceRobo
                 List<Produtos> produtos = DesserializarList(contents);
 
                 //Convert o List Produto para Planilha
-                ConverterParaPlanilha(produtos);
+                //ConverterParaPlanilha(produtos);
+
+                //Convertet para CSV
+                ConverterToCsv(produtos);
             }
         }
         catch(Exception e)
@@ -49,6 +54,11 @@ public class ServiceRobo
             Console.WriteLine(e.Message);
         }
 
+    }
+
+    private void ConverterToCsv(List<Produtos> produtos)
+    {
+        _serviceCsv.TrasformarCSV(produtos);
     }
 
     private List<string> RegistrosParaConsultar()
