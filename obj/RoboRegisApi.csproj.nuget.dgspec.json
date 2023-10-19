@@ -41,6 +41,10 @@
             "EPPlus": {
               "target": "Package",
               "version": "[7.0.0-rc1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [

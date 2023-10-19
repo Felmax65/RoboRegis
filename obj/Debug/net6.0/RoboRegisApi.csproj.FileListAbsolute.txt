@@ -145,3 +145,4 @@ C:\Users\felipe.alexandrino\Documents\projetos\RoboRegis\obj\Debug\net6.0\refint
 C:\Users\felipe.alexandrino\Documents\projetos\RoboRegis\obj\Debug\net6.0\RoboRegisApi.pdb
 C:\Users\felipe.alexandrino\Documents\projetos\RoboRegis\obj\Debug\net6.0\RoboRegisApi.genruntimeconfig.cache
 C:\Users\felipe.alexandrino\Documents\projetos\RoboRegis\obj\Debug\net6.0\ref\RoboRegisApi.dll
+C:\Users\felipe.alexandrino\Documents\projetos\RoboRegis\bin\Debug\net6.0\Newtonsoft.Json.dll
