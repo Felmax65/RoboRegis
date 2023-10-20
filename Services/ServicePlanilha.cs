@@ -17,7 +17,7 @@ public class ServicePlanilha
         try
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            var caminho=@"Entrada_dados\reg2.xlsx";
+            var caminho=@"Entrada_dados\registros.xlsx";
             var ep = new ExcelPackage(new FileInfo(caminho));
             var worksheet = ep.Workbook.Worksheets["Registros_Geral"];
         
