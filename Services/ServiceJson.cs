@@ -37,7 +37,7 @@ public class ServiceJson
         }
         return _items;
     }
-    public List<Produtos> DesserializarJson2(string registros)
+    public List<Produtos> DesserializarJson(string registros)
     {   
         try
         {
@@ -61,6 +61,9 @@ public class ServiceJson
     }
      public string CombinarJson(List<ProdutosContent> contents)
     {
+        /**
+            Metodo Responsavel por combinar todas as respostas de um List Produto Contentes e transformar a string em json com array de registros
+        **/
         string combinedJson;
         ProdutosContent combinedResponse = new ProdutosContent
         {
@@ -78,21 +81,30 @@ public class ServiceJson
         combinedJson = JsonConvert.SerializeObject(combinedResponse);
         return combinedJson;
     }
-    public void DesseriaizarRespostas(List<ProdutosContent> contents, string respostas)
+    public void DesserializarRespostas(List<ProdutosContent> contents, string respostas)
     {
-        ProdutosContent resposta = JsonConvert.DeserializeObject<ProdutosContent>(respostas);
+        /**
+            Desserializa a string de respostas para o tipo ProdutoContent facilitando leitura a conversão para Classe Produtos
+        **/
+        ProdutosContent resposta = JsonConvert.DeserializeObject<ProdutosContent>(respostas)!;
         contents.Add(resposta);
     }
 
     public void GerarArquivoJson(string json)
-    {        
+    {   
+        /**
+            Metodo resposavel por gerar um arquivo .json a partir de uma string contendo todos as respostas e contents dos registros
+        **/     
         var fileName = @"criado.json";
-        var jsonString = JsonConvert.SerializeObject(json);
-        File.WriteAllText(fileName, jsonString);      
+        json = json.Replace("\\","");
+        File.WriteAllText(fileName,json);
 
     }
     public void LerArquivoJson()
     {
+        /**
+            Metodo Responsavel por Ler e transformar um Arquivo Json para CSV
+        **/
         string value = File.ReadAllText(@"criado.json");
         ProdutosContent b = new ProdutosContent();
         b = JsonConvert.DeserializeObject<ProdutosContent>(value)!;

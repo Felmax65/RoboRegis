@@ -50,9 +50,10 @@ public class ServiceAnvisaAPI
 
         try
         {
-            //Adiciona o Guest ao Header da API  
+            //Realiza a consulta dos registros
             await ConsultarAPI(client, registros, contents);
 
+            //Combina as respostas em uma unica string
             combinedJson = _serviceJson.CombinarJson(contents);
 
         }
@@ -79,10 +80,12 @@ public class ServiceAnvisaAPI
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
+                //Verificacao de respostas com status 200, caso seja outro status a resposta nao é inserida na string
                 respostas = await response.Content.ReadAsStringAsync();
             }
 
-            _serviceJson.DesseriaizarRespostas(contents, respostas);
+            //Desserializa as respostas
+            _serviceJson.DesserializarRespostas(contents, respostas);
         }
     }
     

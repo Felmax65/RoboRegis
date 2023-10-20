@@ -21,7 +21,7 @@ public class ServiceRobo
         //retorna o cliente Http
         return _httpclient;
     } 
-    public async Task ConsultaNmRegistro()
+    public async Task ConsultaNmRegistro()//Metodo gera um planilha com todas as Consultas
     {
         try
         {
@@ -48,7 +48,7 @@ public class ServiceRobo
             Console.WriteLine(e.Message);
         }
     }
-     public async Task ConsultaNmRegistro2()
+    public async Task ConsultaNmRegistro3()//Metodo gera um arquivo CSV com todos os registros
     {
         try
         {
@@ -62,36 +62,11 @@ public class ServiceRobo
 
                 //Consumir Api da Anvisa
                 string contents = await _anvisaApi.ConsumirAPI2(cliente, registros);
-
-                Console.WriteLine(contents);
-
-                List<Produtos> produtos = DesserializarList2(contents);
-
-                ConverterParaPlanilha(produtos);                
-            }
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
-    }
-    public async Task ConsultaNmRegistro3()
-    {
-        try
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                //Lista de Registros para consultar
-                List<string> registros = RegistrosParaConsultar();
-
-                //retorna o cliente Http
-                var cliente = GetHttpClient();
-
-                //Consumir Api da Anvisa
-                string contents = await _anvisaApi.ConsumirAPI2(cliente, registros);
-
+                
+                //Gera um arquivo Json com todas as respostas
                 _serviceJson.GerarArquivoJson(contents);
 
+                //Le o arquivo e tranforma em um .CSV
                 _serviceJson.LerArquivoJson();
                             
             }
@@ -100,10 +75,6 @@ public class ServiceRobo
         {
             Console.WriteLine(e.Message);
         }
-    }
-    private void ConverterToCsv(List<Produtos> produtos)
-    {
-        _serviceCsv.TrasformarCSV(produtos);
     }
     private List<string> RegistrosParaConsultar()
     {        
@@ -119,10 +90,5 @@ public class ServiceRobo
     {
         //Desserializar o List
         return _serviceJson.DesserializarJson(contents);
-    }
-    private List<Produtos> DesserializarList2(string contents)
-    {
-        //Desserializar o List
-        return _serviceJson.DesserializarJson2(contents);
     }
 }

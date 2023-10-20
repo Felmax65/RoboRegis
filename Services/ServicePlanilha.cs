@@ -9,7 +9,11 @@ public class ServicePlanilha
         registros = new List<string>();
     }
     public List<string> TranformarList()
-    {
+    { 
+        /**
+            Metodo respnsave por ler a planilha com os registros na coluna 2 
+            e tranformar e retornar uma Lista do tipo String
+        **/
         try
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -33,6 +37,9 @@ public class ServicePlanilha
     }
      public void ConverterItemtoPlanilhaList(List<Produtos> item)
     {
+        /**
+            Metodo reponsavel por o List do tipo Produtos para planilha
+        **/
         try
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -59,6 +66,9 @@ public class ServicePlanilha
     }
     private static void SalvarPlanilha(ExcelPackage package)
     {
+        /**
+            Metodo Responsavel por salvar a planilha
+        **/
         try
         {
             byte[] bin = package.GetAsByteArray();
@@ -72,6 +82,9 @@ public class ServicePlanilha
     }
     private static void PreencherCelulas(List<Produtos> item, ExcelWorksheet worksheet)
     {
+        /**
+            Metodo responsavel por Preencher as Linhas da planilhas
+        **/
         try
         {
             for (int i = 0; i < item.Count; i++)
@@ -98,6 +111,7 @@ public class ServicePlanilha
     }
     private static void CabecalhoExcel(ExcelWorksheet worksheet)
     {   
+        /**Metodo Responsavel por definir o nome do cabecalho das colunas**/
         try
         {
             worksheet.Cells[1, 1].Value = "ID Produto";
