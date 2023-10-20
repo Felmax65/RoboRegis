@@ -21,7 +21,7 @@ public class ServiceRobo
         //retorna o cliente Http
         return _httpclient;
     } 
-    public async Task ConsultaNmRegistro()//Metodo gera um planilha com todas as Consultas
+    public async Task ConsultarProdutos()//Metodo gera um planilha com todas as Consultas
     {
         try
         {
@@ -48,7 +48,7 @@ public class ServiceRobo
             Console.WriteLine(e.Message);
         }
     }
-    public async Task ConsultaNmRegistro3()//Metodo gera um arquivo CSV com todos os registros
+    public async Task ConsultaProdutos2()//Metodo gera um arquivo CSV com todos os registros
     {
         try
         {
