@@ -17,14 +17,14 @@ public class ServicePlanilha
         try
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            var caminho=@"C:\TesteRobo\sheet\reg.xlsx";
+            var caminho=@"Entrada_dados\reg2.xlsx";
             var ep = new ExcelPackage(new FileInfo(caminho));
             var worksheet = ep.Workbook.Worksheets["Registros_Geral"];
         
             for (int rw = 2; rw <= worksheet.Dimension.End.Row; rw++)
             {
                 if (worksheet.Cells[rw, 2].Value != null)
-                registros.Add(worksheet.Cells[rw, 2].Value.ToString());
+                registros.Add(worksheet.Cells[rw, 2].Value.ToString()!);
             }
 
         }
@@ -72,7 +72,8 @@ public class ServicePlanilha
         try
         {
             byte[] bin = package.GetAsByteArray();
-            File.WriteAllBytes($"RegistrosEXCEL.xlsx", bin);
+            var data = DateTime.Now.ToString("d").Replace("/","");    
+            File.WriteAllBytes(@$"Saida_dados\Registros_Anvisa-{data}.xlsx", bin);
 
         }
         catch(Exception e)

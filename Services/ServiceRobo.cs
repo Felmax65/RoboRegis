@@ -48,7 +48,7 @@ public class ServiceRobo
             Console.WriteLine(e.Message);
         }
     }
-    public async Task ConsultaProdutos2()//Metodo gera um arquivo CSV com todos os registros
+    public async Task ConsultarProdutos2()//Metodo gera um arquivo CSV com todos os registros
     {
         try
         {
