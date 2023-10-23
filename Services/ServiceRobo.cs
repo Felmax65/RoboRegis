@@ -8,6 +8,8 @@ public class ServiceRobo
     private ServicePlanilha _servicePlanilha;
     private ServiceAnvisaAPI _anvisaApi;
     private ServiceCSV _serviceCsv;
+    private Apresentacao _apresentacao;
+    
     public ServiceRobo()
     {
         _serviceJson = new ServiceJson();       
@@ -15,6 +17,7 @@ public class ServiceRobo
         _anvisaApi = new ServiceAnvisaAPI();
         _httpclient  = new HttpClient();
         _serviceCsv = new ServiceCSV();
+        _apresentacao = new Apresentacao();
     }   
     private HttpClient GetHttpClient()
     {       
@@ -23,6 +26,7 @@ public class ServiceRobo
     } 
     public async Task ConsultarProdutos()//Metodo gera um planilha com todas as Consultas
     {
+        _apresentacao.MsgInicial();
         try
         {
             using (HttpClient client = new HttpClient())

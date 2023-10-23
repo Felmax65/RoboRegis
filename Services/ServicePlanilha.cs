@@ -5,7 +5,9 @@ namespace RoboRegisAPI.Services;
 public class ServicePlanilha
 {
     List<string> registros;
-    public ServicePlanilha(){
+
+    public ServicePlanilha()
+    {
         registros = new List<string>();
     }
     public List<string> TranformarList()
@@ -17,7 +19,11 @@ public class ServicePlanilha
         try
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            var caminho=@"Entrada_dados\registros.xlsx";
+            var caminho=@"C:\RoboRegis\Entrada\registros.xlsx";
+            if(caminho == null)
+            {
+                System.Console.WriteLine("Caminho da planilha ou nome da planilha de entrada estão errados!!!");
+            }
             var ep = new ExcelPackage(new FileInfo(caminho));
             var worksheet = ep.Workbook.Worksheets["Registros_Geral"];
         
@@ -73,7 +79,7 @@ public class ServicePlanilha
         {
             byte[] bin = package.GetAsByteArray();
             var data = DateTime.Now.ToString("d").Replace("/","");    
-            File.WriteAllBytes(@$"Saida_dados\Registros_Anvisa-{data}.xlsx", bin);
+            File.WriteAllBytes(@$"C:\Saida\Registros_Anvisa-{data}.xlsx", bin);
 
         }
         catch(Exception e)
