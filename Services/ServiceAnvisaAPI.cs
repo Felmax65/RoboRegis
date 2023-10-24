@@ -9,6 +9,8 @@ public class ServiceAnvisaAPI
     {
         _serviceJson = new ServiceJson();
     }
+
+    #region CONSUME API PLANILHA RETORNO LIST STRING
     public async Task<List<string>> ConsumirAPI(HttpClient client, List<string> registros)
     {
         //Declaracao List Contetens
@@ -41,8 +43,13 @@ public class ServiceAnvisaAPI
         }
 
         return contents;
-    }
-    public async Task<string> ConsumirAPI2(HttpClient client, List<string> registros)
+    }   
+    #endregion
+    
+
+    #region CONSUMIR API PARA GERAR JSON RETORNO DE STRING
+
+    public async Task<string> ConsumirAPIJson(HttpClient client, List<string> registros)
     {
         //Declaracao List Contetens
         List<ProdutosContent> contents = new List<ProdutosContent>();
@@ -51,7 +58,7 @@ public class ServiceAnvisaAPI
         try
         {
             //Realiza a consulta dos registros
-            await ConsultarAPI(client, registros, contents);
+            await ConsultarAPIJson(client, registros, contents);
 
             //Combina as respostas em uma unica string
             combinedJson = _serviceJson.CombinarJson(contents);
@@ -64,7 +71,8 @@ public class ServiceAnvisaAPI
 
         return combinedJson;
     }
-    private async Task ConsultarAPI(HttpClient client, List<string> registros, List<ProdutosContent> contents)
+
+    private async Task ConsultarAPIJson(HttpClient client, List<string> registros, List<ProdutosContent> contents)
     {
         client.DefaultRequestHeaders.Add("Authorization", "Guest");
 
@@ -88,5 +96,42 @@ public class ServiceAnvisaAPI
             _serviceJson.DesserializarRespostas(contents, respostas);
         }
     }
-    
+
+    #endregion
+
+    #region TESTE API PLANILHA COM FILTROS
+    public async Task<List<string>> ConsumirAPI3(HttpClient client, List<Registros> registros)
+    {
+        //Declaracao List Contetens
+        List<string> contents = new List<string>();
+
+        try
+        {
+            //Adiciona o Guest ao Header da API  
+            client.DefaultRequestHeaders.Add("Authorization", "Guest");
+
+            //Insercao de Json no List contents
+            foreach (var itens in registros)
+            {
+                //URL para chamar o metodo GET de consulta da API ANVISA
+                string url = $"https://consultas.anvisa.gov.br/api/consulta/genericos?count=10&filter%5BnumeroRegistro%5D={itens.Registro}&page=1";
+
+                //Resposta da API
+                var response = await client.GetAsync(url);
+
+                //Armazena o resultado da consulta em tipo String
+                var content = await response.Content.ReadAsStringAsync();
+
+                //Adiciona os content dos registros para o List Contents
+                contents.Add(content);
+            }
+        }
+        catch(Exception e)
+        {
+            System.Console.WriteLine(e.Message);
+        }
+
+        return contents;
+    } 
+    #endregion    
 }

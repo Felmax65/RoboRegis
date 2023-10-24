@@ -13,6 +13,8 @@ public class ServiceJson
         _items = new List<Produtos>();
         _serviceCSV = new ServiceCSV();
     } 
+
+    #region PROCESSO DE TRATAMENTO DE JSON
     public List<Produtos> DesserializarJson(List<string> registros)
     {   
         try
@@ -36,6 +38,40 @@ public class ServiceJson
             Console.WriteLine(e.Message);
         }
         return _items;
+    }    
+    public void DesserializarRespostas(List<ProdutosContent> contents, string respostas)
+    {
+        /**
+            Desserializa a string de respostas para o tipo ProdutoContent facilitando leitura a conversão para Classe Produtos
+        **/
+        ProdutosContent resposta = JsonConvert.DeserializeObject<ProdutosContent>(respostas)!;
+        contents.Add(resposta);
+    }
+    #endregion
+
+    #region TESTE PARA GERAR CSV
+
+    public string CombinarJson(List<ProdutosContent> contents)
+    {
+        /**
+            Metodo Responsavel por combinar todas as respostas de um List Produto Contentes e transformar a string em json com array de registros
+        **/
+        string combinedJson;
+        ProdutosContent combinedResponse = new ProdutosContent
+        {
+            content = contents.SelectMany(resp => resp.content).ToList(),
+            totalPages = contents.Count,
+            totalElements = contents.Sum(resp => resp.content.Count),
+            last = true,
+            numberOfElements = contents.Sum(resp => resp.content.Count),
+            first = true,
+            sort = null,
+            size = 10,
+            number = 0
+        };
+
+        combinedJson = JsonConvert.SerializeObject(combinedResponse);
+        return combinedJson;
     }
     public List<Produtos> DesserializarJson(string registros)
     {   
@@ -58,36 +94,6 @@ public class ServiceJson
         }
         System.Console.WriteLine(_items);
         return _items;
-    }
-     public string CombinarJson(List<ProdutosContent> contents)
-    {
-        /**
-            Metodo Responsavel por combinar todas as respostas de um List Produto Contentes e transformar a string em json com array de registros
-        **/
-        string combinedJson;
-        ProdutosContent combinedResponse = new ProdutosContent
-        {
-            content = contents.SelectMany(resp => resp.content).ToList(),
-            totalPages = contents.Count,
-            totalElements = contents.Sum(resp => resp.content.Count),
-            last = true,
-            numberOfElements = contents.Sum(resp => resp.content.Count),
-            first = true,
-            sort = null,
-            size = 10,
-            number = 0
-        };
-
-        combinedJson = JsonConvert.SerializeObject(combinedResponse);
-        return combinedJson;
-    }
-    public void DesserializarRespostas(List<ProdutosContent> contents, string respostas)
-    {
-        /**
-            Desserializa a string de respostas para o tipo ProdutoContent facilitando leitura a conversão para Classe Produtos
-        **/
-        ProdutosContent resposta = JsonConvert.DeserializeObject<ProdutosContent>(respostas)!;
-        contents.Add(resposta);
     }
 
     public void GerarArquivoJson(string json)
@@ -113,4 +119,5 @@ public class ServiceJson
 
         _serviceCSV.TrasformarCSV(_items);
     }
+    #endregion
 }

@@ -6,6 +6,6 @@ class RoboRegis
     {           
         ServiceRobo service = new ServiceRobo();
         //await service.ConsultaProdutos2();
-        await service.ConsultarProdutos();               
+        await service.ConsultarProdutos3();               
     }
 }

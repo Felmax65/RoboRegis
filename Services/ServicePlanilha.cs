@@ -10,6 +10,9 @@ public class ServicePlanilha
     {
         registros = new List<string>();
     }
+
+
+    #region GERAR PLANILHA 
     public List<string> TranformarList()
     { 
         /**
@@ -34,6 +37,8 @@ public class ServicePlanilha
             }
 
         }
+
+        
         catch(Exception e)
         {
             Console.WriteLine(e.Message);
@@ -41,7 +46,7 @@ public class ServicePlanilha
 
         return registros;
     }
-     public void ConverterItemtoPlanilhaList(List<Produtos> item)
+    public void ConverterItemtoPlanilhaList(List<Produtos> item)
     {
         /**
             Metodo reponsavel por o List do tipo Produtos para planilha
@@ -79,7 +84,7 @@ public class ServicePlanilha
         {
             byte[] bin = package.GetAsByteArray();
             var data = DateTime.Now.ToString("d").Replace("/","");    
-            File.WriteAllBytes(@$"C:\RoboRegis\Saida\Registros_Anvisa-{data}.xlsx", bin);
+            File.WriteAllBytes(@$"C:\RoboRegis\Dados\Saida\Registros_Anvisa-{data}.xlsx", bin);
 
         }
         catch(Exception e)
@@ -133,4 +138,51 @@ public class ServicePlanilha
             Console.WriteLine(e.Message);
         }
     }
+    #endregion
+
+    #region TESTES
+
+    public List<Registros> TranformarList2()
+    { 
+        /**
+            Metodo respnsave por ler a planilha com os registros na coluna 2 
+            e tranformar e retornar uma Lista do tipo String
+        **/
+        List<Registros> reg = new List<Registros>();
+        try
+        {            
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var caminho=@"C:\RoboRegis\Dados\Entrada\registros.xlsx";
+            if(caminho == null)
+            {
+                System.Console.WriteLine("Caminho da planilha ou nome da planilha de entrada estão errados!!!");
+            }
+            var ep = new ExcelPackage(new FileInfo(caminho));
+            var worksheet = ep.Workbook.Worksheets["Registros_Geral"];
+        
+            for (int rw = 2; rw <= worksheet.Dimension.End.Row; rw++)
+            {   
+                string registro = worksheet.Cells[rw,1].Value?.ToString();
+                string status = worksheet.Cells[rw,2].Value?.ToString();
+
+                if (!string.IsNullOrWhiteSpace(registro))
+                reg.Add(new Registros{
+                    Registro=registro,
+                    Status = status
+                });
+            }
+
+        }        
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        var regFiltrado = reg.Where(x=> x.Status != "Cancelado" && x.Status != "Vencido").ToList();
+
+        return regFiltrado;
+    }
+    #endregion
+
+    
 }
