@@ -1,6 +1,6 @@
-using RoboRegisAPI.Model;
+using RoboRegisApi.Model;
 
-namespace RoboRegisAPI.Services;
+namespace RoboRegisApi.Services;
 public class ServiceCSV
 {
     public void TrasformarCSV(List<Produtos> item)

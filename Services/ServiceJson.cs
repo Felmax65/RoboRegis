@@ -1,7 +1,7 @@
-using RoboRegisAPI.Model;
+using RoboRegisApi.Model;
 using Newtonsoft.Json;
 
-namespace RoboRegisAPI.Services;
+namespace RoboRegisApi.Services;
 public class ServiceJson
 {
     private ProdutosContent _produtos;
@@ -24,13 +24,20 @@ public class ServiceJson
 
             //Declaracao List Items por Injecao
             _items = new List<Produtos>();
-
+            
+            if(registros != null){
             //Conversao de Json para List do tipo Generico
-            foreach (var item in registros) 
-            {
-                _produtos = JsonConvert.DeserializeObject<ProdutosContent>(item)!;
-                _items.AddRange(_produtos.content);
-            }       
+                foreach (var item in registros) 
+                {
+                    _produtos = JsonConvert.DeserializeObject<ProdutosContent>(item)!;
+                    _items.AddRange(_produtos.content);
+                }    
+            }
+            else{
+                Console.ForegroundColor = ConsoleColor.Red;
+                System.Console.WriteLine("-Lista de produtos em branco");
+                _items = null;
+            }
 
         }
         catch(Exception e)

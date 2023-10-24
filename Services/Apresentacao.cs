@@ -1,4 +1,4 @@
-namespace RoboRegisAPI.Services;
+namespace RoboRegisApi.Services;
 
 public class Apresentacao{
 

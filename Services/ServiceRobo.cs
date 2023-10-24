@@ -1,6 +1,6 @@
-using RoboRegisAPI.Model;
+using RoboRegisApi.Model;
 
-namespace RoboRegisAPI.Services;
+namespace RoboRegisApi.Services;
 public class ServiceRobo
 {
     private HttpClient _httpclient;
@@ -24,7 +24,7 @@ public class ServiceRobo
     } 
 
     #region GERAR PLANILHA
-    public async Task ConsultarProdutos()//Metodo gera um planilha com todas as Consultas
+    public async Task ConsultarProdutosPlanilha()//Metodo gera um planilha com todas as Consultas
     {
         _apresentacao.MsgInicial();
         try
@@ -103,13 +103,13 @@ public class ServiceRobo
 
 
     #region TESTE - NOVA PLANILHA COM FILTRO VENCIDO E CANCELADO
-    private List<Registros> RegistrosParaConsultar3()
+    private List<Registros> RegistrosParaConsultarFiltrada()
     {        
         //Retorna uma Lista com todos os registros para consultar na API
         return _servicePlanilha.TranformarList2();
     }
 
-    public async Task ConsultarProdutos3()//Metodo gera um planilha com todas as Consultas
+    public async Task ConsultarProdutosPlanilhaFiltrada()//Metodo gera um planilha com todas as Consultas
     {
         _apresentacao.MsgInicial();
         try
@@ -117,13 +117,24 @@ public class ServiceRobo
             using (HttpClient client = new HttpClient())
             {
                 //Lista de Registros para consultar
-                List<Registros> registros = RegistrosParaConsultar3();
+                List<Registros> registros = RegistrosParaConsultarFiltrada();
+
+                if(registros == null){
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine("-Lista de consulta em Branco");
+                }
 
                 //retorna o cliente Http
                 var cliente = GetHttpClient();
 
                 //Consumir Api da Anvisa
                 List<string> contents = await _anvisaApi.ConsumirAPI3(cliente, registros);
+
+                if(contents == null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine("\n\n-Lista de conteudo em branco");
+                }
 
                 //Desseriaizar o List Contents para o Tipo Class Produtos
                 List<Produtos> produtos = DesserializarList(contents);

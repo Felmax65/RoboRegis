@@ -1,7 +1,7 @@
 using OfficeOpenXml; 
-using RoboRegisAPI.Model;
+using RoboRegisApi.Model;
 
-namespace RoboRegisAPI.Services;
+namespace RoboRegisApi.Services;
 public class ServicePlanilha
 {
     List<string> registros;
@@ -53,22 +53,32 @@ public class ServicePlanilha
         **/
         try
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using (var package = new ExcelPackage())
-            {
-                var worksheet = package.Workbook.Worksheets.Add("Registros");
+            if(item != null){              
 
-                // Cabeçalhos
-                CabecalhoExcel(worksheet);
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                using (var package = new ExcelPackage())
+                {
+                    var worksheet = package.Workbook.Worksheets.Add("Registros");
 
-                // Preencher os dados            
-                PreencherCelulas(item, worksheet);
+                    // Cabeçalhos
+                    CabecalhoExcel(worksheet);
 
-                // Salvar a planilha no arquivo
-                SalvarPlanilha(package);
+                    // Preencher os dados            
+                    PreencherCelulas(item, worksheet);
+
+                    // Salvar a planilha no arquivo
+                    SalvarPlanilha(package);
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("-Planilha gerada com sucesso!.\nSalvo em C:\\RoboRegis\\Dados\\Saida\\.");
+                }
             }
+            else{
+                Console.ForegroundColor = ConsoleColor.Red;
+                System.Console.WriteLine("-Falha ao criar a planilha : Lista de produtos nula");
+            }    
+
             
-            Console.WriteLine("Planilha criada com sucesso.");
         }
         catch(Exception e)
         {
@@ -140,7 +150,7 @@ public class ServicePlanilha
     }
     #endregion
 
-    #region TESTES
+    #region TESTES - NOVA PLANILHA FILTRADA
 
     public List<Registros> TranformarList2()
     { 
@@ -153,17 +163,20 @@ public class ServicePlanilha
         {            
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var caminho=@"C:\RoboRegis\Dados\Entrada\registros.xlsx";
+            //caminho=@"G:\Meu Drive\registros.xlsx";
             if(caminho == null)
             {
-                System.Console.WriteLine("Caminho da planilha ou nome da planilha de entrada estão errados!!!");
+                Console.ForegroundColor = ConsoleColor.Red;
+                System.Console.WriteLine("-Caminho da planilha ou nome da planilha de entrada estão errados!!!");
+                return reg = null;
             }
             var ep = new ExcelPackage(new FileInfo(caminho));
             var worksheet = ep.Workbook.Worksheets["Registros_Geral"];
         
             for (int rw = 2; rw <= worksheet.Dimension.End.Row; rw++)
             {   
-                string registro = worksheet.Cells[rw,1].Value?.ToString();
-                string status = worksheet.Cells[rw,2].Value?.ToString();
+                string registro = worksheet.Cells[rw,2].Value?.ToString();
+                string status = worksheet.Cells[rw,3].Value?.ToString();
 
                 if (!string.IsNullOrWhiteSpace(registro))
                 reg.Add(new Registros{
@@ -178,7 +191,11 @@ public class ServicePlanilha
             Console.WriteLine(e.Message);
         }
 
-        var regFiltrado = reg.Where(x=> x.Status != "Cancelado" && x.Status != "Vencido").ToList();
+        var regFiltrado = reg.Where(x=> x.Status != "VENCIDO" && x.Status != "CANCELADO").ToList();
+
+        foreach(var teste in regFiltrado){
+            System.Console.WriteLine($"{teste.Registro}/{teste.Status}");
+        }
 
         return regFiltrado;
     }

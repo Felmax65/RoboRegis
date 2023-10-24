@@ -1,4 +1,4 @@
-namespace RoboRegisAPI.Model;
+namespace RoboRegisApi.Model;
 public class ProdutosContent
 {
     public ProdutosContent(){}

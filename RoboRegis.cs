@@ -1,11 +1,12 @@
-using RoboRegisAPI.Services;
-namespace RoboRegisAPI;
+using RoboRegisApi.Services;
+namespace RoboRegis;
 class RoboRegis
 {
     static async Task Main (string[] args)
     {           
         ServiceRobo service = new ServiceRobo();
-        //await service.ConsultaProdutos2();
-        await service.ConsultarProdutos3();               
+        //await service.ConsultaProdutosJson();
+        //await service.ConsultaProdutosPlanilha();
+        await service.ConsultarProdutosPlanilhaFiltrada();               
     }
 }
