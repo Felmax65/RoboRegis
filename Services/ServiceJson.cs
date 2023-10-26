@@ -1,17 +1,20 @@
 using RoboRegisApi.Model;
 using Newtonsoft.Json;
+using RoboRegisApi.ModelJson.Cancelados;
+using RoboRegisApi.ModelJson.Vencidos;
+using RoboRegisApi.ModelJson.Vigentes;
 
 namespace RoboRegisApi.Services;
 public class ServiceJson
 {
     private ProdutosContent _produtos;
-    private ServiceCSV _serviceCSV;
+    private ServicePlanilha _servicePlanilha;
     private List<Produtos> _items;
     public ServiceJson()
     {
         _produtos = new ProdutosContent();   
         _items = new List<Produtos>();
-        _serviceCSV = new ServiceCSV();
+        _servicePlanilha = new ServicePlanilha();
     } 
     public List<Produtos> DesserializarJson(List<string> registros)
     {   
@@ -51,4 +54,26 @@ public class ServiceJson
         ProdutosContent resposta = JsonConvert.DeserializeObject<ProdutosContent>(respostas)!;
         contents.Add(resposta);
     } 
+
+    #region NOVO TESTE
+
+    public void DesserializarNOVO(List<string> registros)
+    {   
+        List<RootVigentes> rootVigentes = new List<RootVigentes>();
+        List<RootVencidos> rootVencidos = new List<RootVencidos>();
+        List<RootCancelado> rootCancelados = new List<RootCancelado>();
+
+      
+        foreach(var jsons in registros){
+            
+            
+            var jsona = JsonConvert.DeserializeObject<RootVigentes>(jsons);
+            if(jsona != null){
+                rootVigentes.Add(jsona);
+                _servicePlanilha.ConverterItemtoPlanilhaVigentes(rootVigentes);
+            }         
+        }
+    }    
+
+    #endregion
 }

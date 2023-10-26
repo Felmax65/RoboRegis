@@ -1,4 +1,5 @@
 using RoboRegisApi.Model;
+using RoboRegisApi.ModelJson;
 
 namespace RoboRegisApi.Services;
 public class ServiceRobo
@@ -80,4 +81,48 @@ public class ServiceRobo
         return _servicePlanilha.TranformarList2();
     }
 
+    #region TESTE NOVO URGENTE
+    public async Task ConsultarProdutosPlanilhaFiltradaNOVO()//Metodo gera um planilha com todas as Consultas
+    {
+        _apresentacao.MsgInicial();
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                //Lista de Registros para consultar
+                List<Registrosteste> registros = RegistrosParaConsultarFiltradaNOVO();
+
+                if(registros == null){
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine("-Lista de consulta em Branco");
+                }
+
+                //retorna o cliente Http
+                var cliente = GetHttpClient();
+
+                //Consumir Api da Anvisa
+                List<string> contents = await _anvisaApi.ConsumirNOVO(cliente, registros);
+
+                if(contents == null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine("\n\n-Lista de conteudo em branco");
+                }
+
+                _serviceJson.DesserializarNOVO(contents);
+               
+            }
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    } 
+
+    private List<Registrosteste> RegistrosParaConsultarFiltradaNOVO()
+    {        
+        //Retorna uma Lista com todos os registros para consultar na API
+        return _servicePlanilha.TranformarNOVO();
+    }
+    #endregion
 }
