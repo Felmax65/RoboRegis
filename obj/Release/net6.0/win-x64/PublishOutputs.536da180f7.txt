@@ -1,0 +1,2 @@
+C:\Users\Felipe\Downloads\RoboRegis-Feature2\RoboRegis-Feature2\bin\Release\net6.0\win-x64\app.publish\RoboRegis.pdb
+C:\Users\Felipe\Downloads\RoboRegis-Feature2\RoboRegis-Feature2\bin\Release\net6.0\win-x64\app.publish\RoboRegis.exe
