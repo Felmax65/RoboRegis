@@ -1,7 +1,8 @@
-using System.ComponentModel;
 using OfficeOpenXml;
 using RRegis.Model;
-using RRegis.Model.ModelJson;
+using RRegis.Model.ModelJson.Vigente;
+using RRegis.Model.ModelJson.Vencidos;
+using RRegis.Model.ModelJson.Cancelado;
 
 namespace RRegis.Service;
 public class ServicePlanilha{

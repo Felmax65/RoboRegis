@@ -16,7 +16,6 @@ public class ServiceConsulta{
             Url = $"https://consultas.anvisa.gov.br/api/consulta/saude/{itens.NmProcesso}/?count=10&filter%5BnumeroRegistro%5D={itens.NmRegistro}&page=1. ";
             var content = await _serviceApi.ConsumirApi(Url);
             Contents.Add(content);
-            //await Task.Delay(5000);
             System.Console.WriteLine($"{Contents.Count()}");            
         }
         return Contents;       

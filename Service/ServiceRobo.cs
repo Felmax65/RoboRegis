@@ -1,5 +1,3 @@
-using RRegis.Service;
-
 namespace RRegis.Service;
 public class ServiceRobo{
     private ServiceConsulta _serviceConsulta;
@@ -8,8 +6,10 @@ public class ServiceRobo{
         _serviceConsulta = new ServiceConsulta();
         _serviceJson = new ServiceJson();
     }
-    public async void ConsultarRegistros(){
+    public async Task<string> ConsultarRegistros(){
         var consultas = await _serviceConsulta.Consulta();
-        _serviceJson.Desserializar(consultas);              
+        _serviceJson.Desserializar(consultas); 
+        var msg = "OK";
+        return msg;              
     }
 }
