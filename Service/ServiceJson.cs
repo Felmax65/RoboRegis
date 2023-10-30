@@ -22,10 +22,24 @@ public class ServiceJson{
                 rootVigentes.Add(vigentes);                       
             }
             _servicePlanilha.GerarPlanilha(rootVigentes);
+            TransformarCSV(rootVigentes);
         }
         catch (Exception e)
         {
             Console.WriteLine($"Erro ao Desserializar as consultas: {e.Message}");
         }
+    }
+
+    public void TransformarCSV(List<RootVigente> vigentes){
+
+        using(var fluxo = new FileStream(@"C:\RoboRegis\Dados-RoboRegis\Saida\registros.csv", FileMode.Create))
+        using(var escritor = new StreamWriter(fluxo)){
+
+            foreach(var itens in vigentes){
+                escritor.Write($"{itens.produto};{itens.empresa.cnpj};{itens.empresa.razaoSocial};{itens.registro};{itens.processo};{itens.cancelado};{itens.dataCancelamento};{itens.vencimento.data};{itens.vencimento.descricao};");
+            }
+
+        }
+
     }
 }
