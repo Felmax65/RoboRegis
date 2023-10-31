@@ -23,8 +23,8 @@ public class ServicePlanilha{
 
             for (int rw = 2; rw <= row; rw++)
             {
-                string registro = worksheet.Cells[rw, 1].Value?.ToString(); // Faz a leitura da primeira linha da coluna 1 
-                string processo = worksheet.Cells[rw, 2].Value?.ToString(); // Faz a leitura da primeira linha da coluna 2  
+                string registro = worksheet.Cells[rw, 1].Value?.ToString().Trim(); // Faz a leitura da primeira linha da coluna 1 
+                string processo = worksheet.Cells[rw, 2].Value?.ToString().Trim(); // Faz a leitura da primeira linha da coluna 2  
 
                 if (!string.IsNullOrWhiteSpace(registro)){ // Verifica se há espaços nulos ou em branco na planilha
                     _registros.Add(new Registro{
