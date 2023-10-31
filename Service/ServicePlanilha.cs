@@ -73,8 +73,13 @@ public class ServicePlanilha{
                             vigentesSheet.Cells[row, 4].Value = root.empresa.cnpj;
                             vigentesSheet.Cells[row, 5].Value = root.empresa.razaoSocial;
                         }
-
-                        vigentesSheet.Cells[row, 6].Value = root.cancelado;
+                        
+                        if(root.cancelado == "true"){
+                            vigentesSheet.Cells[row, 6].Value = root.cancelado = "CANCELADO";
+                        }
+                        else{
+                            vigentesSheet.Cells[row, 6].Value = root.cancelado = "";    
+                        }  
                         vigentesSheet.Cells[row, 7].Value = root.dataCancelamento;
 
                         if (root.vencimento != null){

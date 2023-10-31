@@ -1,6 +1,3 @@
-using Newtonsoft.Json.Linq;
-using RRegis.Model.ModelJson.Cancelado;
-using RRegis.Model.ModelJson.Vencidos;
 using RRegis.Model.ModelJson.Vigente;
 using Newtonsoft.Json;
 namespace RRegis.Service;
