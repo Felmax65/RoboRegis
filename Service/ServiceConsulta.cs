@@ -17,13 +17,28 @@ public class ServiceConsulta{
             var registros = _servicePlanilha.ConverterRegistros(); // Converte os registros para o tipo List Registros
 
             foreach(var itens in registros){ // leitura do List Registros
-                Url = $"https://consultas.anvisa.gov.br/api/consulta/saude/{itens.NmProcesso}/?count=10&filter%5BnumeroRegistro%5D={itens.NmRegistro}&page=1. "; // UrL para consultas na api da ANVISA
+                Url = $"https://consultas.anvisa.gov.br/api/consulta/saude/{itens.NmProcesso}/?count=10&filter%5BnumeroRegistro%5D={itens.NmRegistro}&page=1"; // UrL para consultas na api da ANVISA
                 var content = await _serviceApi.ConsumirApi(Url); // Consume a API a partir da URL informada e retorna a resposta
-                if(content != null){ // Verifica se content e null
+                if(!string.IsNullOrEmpty(content) && !string.IsNullOrWhiteSpace(content)){ // Verifica se content e null ou vazio e Null ou com espaços em branco
                     Contents.Add(content); // Armazena a resposta em um List do tipo string
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    System.Console.WriteLine($"-Produto: {Contents.Count()+1} - OK!"); 
                 }
-                System.Console.WriteLine($"{Contents.Count()}");                        
+                else{
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    System.Console.WriteLine($"-Registro: {itens.NmRegistro} e Processo: {itens.NmProcesso} na linha {Contents.Count() + 1} - EXCLUÍDO! Verificar se os dados informados estão corretos"); 
+                }       
+                                                     
             }
+            var inseridos = Contents.Count();//Veririca quantidade de linhas inseridas
+            var excluidos = registros.Count() - inseridos;// Verifica quantidade de linhas excluidas
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            System.Console.WriteLine($"\n-Linhas Inseridas : {inseridos}");
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            System.Console.WriteLine($"-Linhas Excluídos : {excluidos}\n");
+
             return Contents; 
         }
         catch(Exception e){

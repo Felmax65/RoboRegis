@@ -17,14 +17,15 @@ public class ServiceJson{
             foreach (var jsonString in consultas)
             {
                 var vigentes = JsonConvert.DeserializeObject<RootVigente>(jsonString); // Desserializacao do json
-                rootVigentes.Add(vigentes);  //Armazena resposta desserializada no List                     
+                rootVigentes.Add(vigentes);  //Armazena resposta desserializada no List    
+                         
             }
             _servicePlanilha.GerarPlanilha(rootVigentes);  // Chama o metodo gerar planilha a partir do List do tipo RootVigente         
         }
         catch (Exception e)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Erro ao Desserializar as consultas: {e.Message}");
+            Console.WriteLine($"-Erro ao Desserializar as consultas: {e.Message}");
         }
     }
 
