@@ -17,6 +17,7 @@ public class ServiceApi{
             return content;   
         }
         else{
+            Console.ForegroundColor = ConsoleColor.Red;
             throw new Exception($"Erro na Requisicao: {_serviceResponse.StatusCode}");
         }
     }

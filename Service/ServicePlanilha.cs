@@ -1,8 +1,6 @@
 using OfficeOpenXml;
 using RRegis.Model;
 using RRegis.Model.ModelJson.Vigente;
-using RRegis.Model.ModelJson.Vencidos;
-using RRegis.Model.ModelJson.Cancelado;
 
 namespace RRegis.Service;
 public class ServicePlanilha{
@@ -37,7 +35,7 @@ public class ServicePlanilha{
         }
         else{
             Console.ForegroundColor = ConsoleColor.Red;
-            throw new Exception ($"Algo de errado ocorreu com a planilha");
+            throw new Exception ($"-Algo de errado ocorreu com a planilha");
         }          
     }
     public void GerarPlanilha(List<RootVigente> vigentes){
@@ -87,13 +85,15 @@ public class ServicePlanilha{
                         row++; // Avance para a próxima linha
                     }
 
-                    package.Save();            
+                    package.Save();
+                    Console.ForegroundColor = ConsoleColor.Green;   
+                    Console.WriteLine("-Planilha gerada com sucesso em C:\\RoboRegis\\Dados-RoboRegis\\Saida\\");         
                 }   
             }
         }
         catch(Exception e){
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Erro ao gerar a planilha: {e.Message}");
+            Console.WriteLine($"-Erro ao gerar a planilha: {e.Message}");
         }
     }
 }
