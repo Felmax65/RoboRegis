@@ -8,52 +8,59 @@ public class ServicePlanilha{
     public ServicePlanilha(){
        _registros = new List<Registro>();
     }
+
+    #region ConverterRegistros
+    //Metodo Responsavel por transformar a planilha de entrada em um LIST
     public List<Registro> ConverterRegistros(){    
         
-        ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-        var caminho = @"C:\RoboRegis\Dados-RoboRegis\Entrada\reg.xlsx";
+        ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial; // Atribui o tipo de licença da planilha
+        var caminho = @"C:\RoboRegis\Dados-RoboRegis\Entrada\reg.xlsx";// Caminho da planilha de entrada
 
-        if (caminho != null){
-            var ep = new ExcelPackage(new FileInfo(caminho));
-            var worksheet = ep.Workbook.Worksheets["Registros"];
-            var row = worksheet.Dimension.End.Row;
+        if (caminho != null){ //verificacao de caminho nulo
+            var ep = new ExcelPackage(new FileInfo(caminho)); //Iniciliazação para leitura da planilha
+            var worksheet = ep.Workbook.Worksheets["Registros"]; // Planilha e aba para realizacao da leitura
+            var row = worksheet.Dimension.End.Row; // Quantidade maxima de linhas no arquivo
 
             for (int rw = 2; rw <= row; rw++)
             {
-                string registro = worksheet.Cells[rw, 1].Value?.ToString();
-                string processo = worksheet.Cells[rw, 2].Value?.ToString();
+                string registro = worksheet.Cells[rw, 1].Value?.ToString(); // Faz a leitura da primeira linha da coluna 1 
+                string processo = worksheet.Cells[rw, 2].Value?.ToString(); // Faz a leitura da primeira linha da coluna 2  
 
-                if (!string.IsNullOrWhiteSpace(registro)){
+                if (!string.IsNullOrWhiteSpace(registro)){ // Verifica se há espaços nulos ou em branco na planilha
                     _registros.Add(new Registro{
                         NmRegistro = registro,
                         NmProcesso = processo
-                    }); 
+                    }); // Converte os dados das 2 colunas em um LIST de acordo com a classe Generica Registro
                 }   
                 
             }
-            return _registros;  
+            return _registros;  // retorna o List do tipo Registros
         }
         else{
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Red; 
             throw new Exception ($"-Algo de errado ocorreu com a planilha");
         }          
     }
+    #endregion
+   
+    #region GerarPlanilha
+    //Metodo Responsavel por gerar a planilha apartir o List da classe generica RootVigente
     public void GerarPlanilha(List<RootVigente> vigentes){
 
         try{
             
             var data = DateTime.Now.ToString("d");
-            var caminho = @$"C:\RoboRegis\\Dados-RoboRegis\Saida\Registros-{data.Replace("/","")}.xlsx";
-            if (caminho != null && vigentes != null){
+            var caminho = @$"C:\RoboRegis\\Dados-RoboRegis\Saida\Registros-{data.Replace("/","")}.xlsx"; //Caminho para salvar a planilha
+            if (caminho != null && vigentes != null){ //Verificação de nulo
                 using (var package = new ExcelPackage(new FileInfo(caminho))){
 
                     var vigentesSheet = package.Workbook.Worksheets.Add("Registros_Vigentes");
 
-                    // Adicione as colunas iniciais
+                    // Adiciona as colunas iniciais
                     vigentesSheet.Cells[1, 1].Value = "Produto";
                     vigentesSheet.Cells[1, 2].Value = "Registro";
                     vigentesSheet.Cells[1, 3].Value = "Processo";
-                    // Adicione as colunas adicionais                    
+                    // Adiciona as colunas adicionais                    
                     vigentesSheet.Cells[1, 4].Value = "CNPJ";
                     vigentesSheet.Cells[1, 5].Value = "Razão Social";
                     vigentesSheet.Cells[1, 6].Value = "Cancelado";
@@ -61,10 +68,10 @@ public class ServicePlanilha{
                     vigentesSheet.Cells[1, 8].Value = "Data Vencimento";
                     vigentesSheet.Cells[1, 9].Value = "Descrição";
 
-                    int row = 2; // Comece a partir da segunda linha
+                    int row = 2; // Começa a partir da segunda linha
 
                     foreach (var root in vigentes){
-                        // Preencha as colunas iniciais
+                        // Preenche as colunas iniciais
                         vigentesSheet.Cells[row, 1].Value = root.produto;
                         vigentesSheet.Cells[row, 2].Value = root.registro;
                         vigentesSheet.Cells[row, 3].Value = root.processo;
@@ -87,10 +94,10 @@ public class ServicePlanilha{
                             vigentesSheet.Cells[row, 9].Value = root.vencimento.descricao;
                         }
 
-                        row++; // Avance para a próxima linha
+                        row++; // Avança para a próxima linha
                     }
 
-                    package.Save();
+                    package.Save(); //Salva a planilha
                     Console.ForegroundColor = ConsoleColor.Green;   
                     Console.WriteLine("-Planilha gerada com sucesso em C:\\RoboRegis\\Dados-RoboRegis\\Saida\\");         
                 }   
@@ -101,4 +108,5 @@ public class ServicePlanilha{
             Console.WriteLine($"-Erro ao gerar a planilha: {e.Message}");
         }
     }
+    #endregion
 }
