@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using System.Xml.XPath;
 using OfficeOpenXml;
 using RRegis.Model;
 using RRegis.Model.ModelJson.Vigente;
@@ -50,6 +52,7 @@ public class ServicePlanilha{
         try{
             
             var data = DateTime.Now.ToString("d");
+            var data1 = DateTime.Now;
             var caminho = @$"C:\RoboRegis\\Dados-RoboRegis\Saida\Registros-{data.Replace("/","")}.xlsx"; //Caminho para salvar a planilha
             if (caminho != null && vigentes != null){ //Verificação de nulo
                 using (var package = new ExcelPackage(new FileInfo(caminho))){
@@ -57,16 +60,14 @@ public class ServicePlanilha{
                     var vigentesSheet = package.Workbook.Worksheets.Add("Registros_Vigentes");
 
                     // Adiciona as colunas iniciais
-                    vigentesSheet.Cells[1, 1].Value = "Produto";
-                    vigentesSheet.Cells[1, 2].Value = "Registro";
-                    vigentesSheet.Cells[1, 3].Value = "Processo";
+                    vigentesSheet.Cells[1, 1].Value = "PRODUTO";
+                    vigentesSheet.Cells[1, 2].Value = "REGISTRO";
+                    vigentesSheet.Cells[1, 3].Value = "PROCESSO";
                     // Adiciona as colunas adicionais                    
                     vigentesSheet.Cells[1, 4].Value = "CNPJ";
-                    vigentesSheet.Cells[1, 5].Value = "Razão Social";
-                    vigentesSheet.Cells[1, 6].Value = "Cancelado";
-                    vigentesSheet.Cells[1, 7].Value = "Data Cancelado";
-                    vigentesSheet.Cells[1, 8].Value = "Data Vencimento";
-                    vigentesSheet.Cells[1, 9].Value = "Descrição";
+                    vigentesSheet.Cells[1, 5].Value = "RAZÃO SOCIAL";
+                    vigentesSheet.Cells[1, 6].Value = "STATUS";
+                    vigentesSheet.Cells[1, 7].Value = "DATA";
 
                     int row = 2; // Começa a partir da segunda linha
 
@@ -83,16 +84,27 @@ public class ServicePlanilha{
                         
                         if(root.cancelado == "true"){
                             vigentesSheet.Cells[row, 6].Value = root.cancelado = "CANCELADO";
-                        }
-                        else{
-                            vigentesSheet.Cells[row, 6].Value = root.cancelado = "";    
-                        }  
-                        vigentesSheet.Cells[row, 7].Value = root.dataCancelamento;
+                            vigentesSheet.Cells[row, 7].Value = Convert.ToDateTime(root.dataCancelamento).ToString("d");
+                        }                       
+                        
+                        if (root.vencimento != null){                            
+                            vigentesSheet.Cells[row, 6].Value = root.vencimento.descricao;
+                            
+                            if(root.vencimento.data != null){
 
-                        if (root.vencimento != null){
-                            vigentesSheet.Cells[row, 8].Value = root.vencimento.data;
-                            vigentesSheet.Cells[row, 9].Value = root.vencimento.descricao;
+                                var dtCompara = DateTime.Compare(Convert.ToDateTime(root.vencimento.data),data1);
+
+                                if(dtCompara > 0){
+                                    vigentesSheet.Cells[row, 6].Value = "VENCE EM";
+                                    vigentesSheet.Cells[row, 7].Value = Convert.ToDateTime(root.vencimento.data).ToString("d");
+                                }
+                                else{
+                                    vigentesSheet.Cells[row, 6].Value = "VENCIDO";
+                                    vigentesSheet.Cells[row, 7].Value = Convert.ToDateTime(root.vencimento.data).ToString("d");
+                                }
+                            }
                         }
+
 
                         row++; // Avança para a próxima linha
                     }

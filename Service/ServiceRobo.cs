@@ -1,9 +1,12 @@
 using RRegis.View;
+
 namespace RRegis.Service;
+
 public class ServiceRobo{
     private ServiceConsulta _serviceConsulta;
     private ServiceJson _serviceJson;
     private Apresentacao _apresentacao;
+    
     public ServiceRobo(){        
         _serviceConsulta = new ServiceConsulta();
         _serviceJson = new ServiceJson();

@@ -1,9 +1,11 @@
 namespace RRegis.Service;
+
 public class ServiceConsulta{
     private ServiceApi _serviceApi;
     private ServicePlanilha _servicePlanilha;
     private List<string> Contents;
     public string Url { get; set; }
+    
     public ServiceConsulta(){
         Contents = new List<string>();
         _serviceApi = new ServiceApi();

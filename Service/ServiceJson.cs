@@ -1,8 +1,11 @@
 using RRegis.Model.ModelJson.Vigente;
 using Newtonsoft.Json;
+
 namespace RRegis.Service;
+
 public class ServiceJson{    
     private ServicePlanilha _servicePlanilha;
+    
     public ServiceJson(){
         _servicePlanilha = new ServicePlanilha();
     }

@@ -1,8 +1,11 @@
 using System.Net.Http.Headers;
+
 namespace RRegis.Service;
+
 public class ServiceApi{
     public HttpClient _client;
     private HttpResponseMessage _serviceResponse;
+    
     public ServiceApi(){
         _client = new HttpClient();
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
